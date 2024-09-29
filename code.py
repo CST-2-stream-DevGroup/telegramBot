@@ -13,7 +13,7 @@ dp = Dispatcher()
 #ответ после нажатия /start
 @dp.message(CommandStart())
 async def cmd_start(message: Message):
-	await message.answer_photo(photo='AgACAgIAAxkBAAM0ZvlVMGSO3jDDIn8rSa5cthZxFswAAmjgMRvH79FL06g-JhlUG3cBAAMCAAN5AAM2BA',
+	await message.answer_photo(photo='AgACAgIAAxkBAANNZvlurmgJ3j-za2LmkPDn0diBGhUAAkrhMRvH79FL8-Q1NacBlQYBAAMCAAN4AAM2BA',
                                caption='Привет! Я бот, созданный для помощи бездомным животным. '
                                        'С моей помощью ты можешь отмечать на карте места, где видишь животных, '
                                        'нуждающихся в еде и заботе. Благодаря этому другие люди смогут прийти и помочь им.\n\n'
