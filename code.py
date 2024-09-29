@@ -3,7 +3,7 @@ import asyncio
 #импорт нужных модулей для работы бота
 from config import TOKEN
 from aiogram import Bot, Dispatcher, F
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 
 #создание бота по токену
@@ -22,6 +22,13 @@ async def cmd_start(message: Message):
                                        '/view_map — посмотреть карту с отмеченными животными.\n'
                                        '/info — узнать больше о том, как я работаю.\n\n'
                                        'Спасибо, что помогаешь нашим меньшим друзьям!')
+
+#ответ после /info
+@dp.message(Command("info"))
+async def cmd_start(message: Message):
+    await message.answer("Добро пожаловать в бот Fluffy trail, который был создан для помощи бездомным животным \n"
+                         "Здесь вы можете узнать ближайшее местонахождение зверюшек \n"
+                         "Также есть возможность добавлять новые точки, где находятся нуждающиеся животные")
 
 #загрузка фото в сам бот, чтобы можно было их потом использовать
 @dp.message(F.photo)
