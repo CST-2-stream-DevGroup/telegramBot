@@ -1,5 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
+#Reply клавиатура
 main = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text="add location"), KeyboardButton(text="view map")]
+    [KeyboardButton(text="Получить геолокацию"),
+     KeyboardButton(text="Посмотреть карту")]
 ])
