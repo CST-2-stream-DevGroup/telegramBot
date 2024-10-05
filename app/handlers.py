@@ -1,12 +1,27 @@
 from aiogram import F, Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
-
-import app.keyboards as kb
+import telegramBot.app.db as db1
+import telegramBot.app.keyboards as kb
+from telegramBot.app.db import db_start, take_coords
 
 router = Router()
 
 #ответ после нажатия /start
+
+async def on_startup():
+    await db_start()
+
+@router.message(F.text=="Посмотреть карту")
+async def send_location(message: Message):
+    await message.answer(f"{await take_coords()}")
+
+@router.message(F.location)
+async def handle_location(message: Message):
+    lat = message.location.latitude
+    lon = message.location.longitude
+    await db1.create(user_id=message.from_user.id, lat=lat, long=lon)
+
 @router.message(CommandStart())
 async def cmd_start(message: Message):
 	await message.answer_photo(photo='AgACAgIAAxkBAANNZvlurmgJ3j-za2LmkPDn0diBGhUAAkrhMRvH79FL8-Q1NacBlQYBAAMCAAN4AAM2BA',
@@ -23,6 +38,7 @@ async def cmd_start(message: Message):
 #ответ после /info
 @router.message(Command("info"))
 async def cmd_start(message: Message):
+    await db_start()
     await message.answer("Добро пожаловать в бот Fluffy trail, который был создан для помощи бездомным животным \n"
                          "Здесь вы можете узнать ближайшее местонахождение зверюшек \n"
                          "Также есть возможность добавлять новые точки, где находятся нуждающиеся животные")
