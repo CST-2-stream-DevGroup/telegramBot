@@ -4,6 +4,12 @@ from aiogram.types import Message
 import telegramBot.app.db as db1
 import telegramBot.app.keyboards as kb
 from telegramBot.app.db import db_start, take_coords
+from aiogram.fsm.state import StatesGroup, State
+from aiogram.fsm.context import FSMContext
+
+class Geo(StatesGroup):
+    get_coor = State()
+    pr_coor = State()
 
 router = Router()
 
@@ -12,15 +18,28 @@ router = Router()
 async def on_startup():
     await db_start()
 
-@router.message(F.text=="Посмотреть карту")
-async def send_location(message: Message):
-    await message.answer(f"{await take_coords()}")
+@router.message(F.text == "Посмотреть карту")
+async def send_location(message: Message, state: FSMContext):
+    await state.set_state(Geo.pr_coor)
+    await message.answer(f"{await take_coords()}") #строчка должна запрашивать координаты пользователя
 
-@router.message(F.location)
+@router.message(F.text == "Добавить метку")
+async def send_location(message: Message, state: FSMContext):
+    await state.set_state(Geo.get_coor)
+    await message.answer(f"{await take_coords()}") #строчка должна запрашивать координаты пользователя
+
+@router.message(Geo.pr_coor, F.location)
+async def user_location(message: Message, state: FSMContext):
+    lat = message.location.latitude
+    lon = message.location.longitude
+    await state.clear()
+
+@router.message(Geo.get_coor, F.location)
 async def handle_location(message: Message):
     lat = message.location.latitude
     lon = message.location.longitude
     await db1.create(user_id=message.from_user.id, lat=lat, long=lon)
+    await state.clear()
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
