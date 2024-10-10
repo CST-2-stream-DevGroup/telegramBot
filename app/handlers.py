@@ -19,26 +19,30 @@ async def on_startup():
     await db_start()
 
 @router.message(F.text == "Посмотреть карту")
-async def send_location(message: Message, state: FSMContext):
+async def send_location2(message: Message, state: FSMContext):
     await state.set_state(Geo.pr_coor)
-    await message.answer(f"{await take_coords()}") #строчка должна запрашивать координаты пользователя
-
-@router.message(F.text == "Добавить метку")
-async def send_location(message: Message, state: FSMContext):
-    await state.set_state(Geo.get_coor)
-    await message.answer(f"{await take_coords()}") #строчка должна запрашивать координаты пользователя
+    await message.reply("Отправь свои координаты!", reply_markup=kb.my_loc) #строчка должна запрашивать координаты пользователя
 
 @router.message(Geo.pr_coor, F.location)
 async def user_location(message: Message, state: FSMContext):
     lat = message.location.latitude
     lon = message.location.longitude
+    await message.answer(f"Ваши координаты {lat}, {lon}",
+                               reply_markup=kb.main)
     await state.clear()
 
+@router.message(F.text == "Добавить метку")
+async def send_location2(message: Message, state: FSMContext):
+    await state.set_state(Geo.get_coor)
+    await message.reply("Отправь свои координаты!", reply_markup=kb.my_loc) #строчка должна запрашивать координаты пользователя
+
 @router.message(Geo.get_coor, F.location)
-async def handle_location(message: Message):
+async def handle_location(message: Message, state: FSMContext):
     lat = message.location.latitude
     lon = message.location.longitude
-    await db1.create(user_id=message.from_user.id, lat=lat, long=lon)
+    await message.answer("Ваши координаты добавлены в бд",
+                               reply_markup=kb.main)
+    #await db1.create(user_id=message.from_user.id, lat=lat, long=lon)
     await state.clear()
 
 @router.message(CommandStart())
