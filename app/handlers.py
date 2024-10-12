@@ -7,13 +7,16 @@ from telegramBot.app.db import db_start, take_coords
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from math import sin, cos, sqrt, atan2, radians
+from aiogram import Bot
+from telegramBot.config import TOKEN
+bot1 = Bot(token = TOKEN)
 
 def rast(lat1, lon1, lat2, lon2):
     radius = 6371  # km
-    dlat = radians(lat2 - lat1)
-    dlon = radians(lon2 - lon1)
+    dlat = radians(float(lat2) - float(lat1))
+    dlon = radians(float(lon2) - (lon1))
     a = (sin(dlat / 2) * sin(dlat / 2) +
-         cos(radians(lat1)) * cos(radians(lat2)) *
+         cos(radians(float(lat1))) * cos(radians(float(lat2))) *
          sin(dlon / 2) * sin(dlon / 2))
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     d = radius * c
@@ -41,7 +44,7 @@ async def user_location(message: Message, state: FSMContext):
     lon = message.location.longitude
     await message.answer(f"Ваши координаты {lat}, {lon}",
                                reply_markup=kb.main)
-    #array from the datebase
+    #array from the database
     bd = await take_coords()
 
     #nearest points
@@ -73,19 +76,20 @@ async def user_location(message: Message, state: FSMContext):
 
     #print
     if m[0] > 1000:  # если животных нет в радиусе 1000км
-        await message.answer("Рядом с Вами нет бездомных животных")
+        await message.answer("Рядом с вами нет бездомных животных")
     elif (m[1] > 1000) or (coordt2 == coordt1):  # если 1 животное в радиусе 1000км
-        await message.answer(f'Ближайшее животное находится на расстоянии {m[0]} километров от Вас!\
-                \n 1) широта: {coordt1[0]} долгота: {coordt1[1]}')
+        await message.answer("Рядом с вами только одно животное")
+        await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1])
     elif (m[2] > 1000) or (coordt3 == coordt2):  # если 2 животных в радиусе 1000км
-        await message.answer(f'Ближайшие животныи находятся на расстоянии {m[0]} километров, {m[1]} километров от Вас!\
-                \n 1) широта: {coordt1[0]} долгота: {coordt1[1]} \
-                \n 2) широта: {coordt2[0]} долгота: {coordt2[1]}')
+        await message.answer("Вот геолокации ближайших к вам бездомных животных")
+        await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1])
+        await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1])
     else:  # если 3 животных в радиусе 1000км
-        await message.answer(f'Ближайшие животныи находятся на расстоянии {m[0]} километров, {m[1]} километров, {m[2]} километров от Вас!\
-              \n 1) широта: {coordt1[0]} долгота: {coordt1[1]} \
-              \n 2) широта: {coordt2[0]} долгота: {coordt2[1]} \
-              \n 3) широта: {coordt3[0]} долгота: {coordt3[1]}')
+        await message.answer("Вот геолокации ближайших к вам бездомных животных")
+        await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1])
+        await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1])
+        await bot1.send_location(message.from_user.id, coordt3[0], coordt3[1])
+
 
 @router.message(F.text == "Добавить метку")
 async def send_location2(message: Message, state: FSMContext):
