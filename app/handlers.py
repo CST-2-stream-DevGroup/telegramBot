@@ -130,3 +130,16 @@ async def cmd_start(message: Message):
 @router.message(F.photo)
 async def get_photo(message: Message):
     await message.answer(f'ID photo: {message.photo[-1].file_id}')
+    
+#Отправление сообщения админу
+@router.message(Command("get_support"))
+async def cmd_start(message: Message):
+    await db_start()
+    await message.bot.forward_message(chat_id="914902185", from_chat_id=message.chat.id, message_id=message.message_id)
+    await message.answer("Ваш ответ принят! Поддержка рассмотрит его в течение суток.")
+
+#Команда /support для получения инфы по поводу отправки запроса
+@router.message(Command("support"))
+async def cmd_start(message: Message):
+    await db_start()
+    await message.answer("Напишите /get_support и опишите проблему в этом же сообщении. После чего оно будет перенаправлено в поддержку")
