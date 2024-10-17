@@ -25,6 +25,9 @@ def rast(lat1, lon1, lat2, lon2):
 class Geo(StatesGroup):
     get_coor = State()
     pr_coor = State()
+    pic = State()
+    tex = State()
+
 
 router = Router()
 
@@ -100,10 +103,27 @@ async def send_location2(message: Message, state: FSMContext):
 async def handle_location(message: Message, state: FSMContext):
     lat = message.location.latitude
     lon = message.location.longitude
-    await message.answer("Ваши координаты добавлены в бд",
+    b = str(message.from_user.id) + " " + str(lat) + " " + str(lon)
+    await state.update_data(get_coor=b)
+    await message.reply("Прикрепи фото! (Или напиши 'нет')")
+    await state.set_state(Geo.pic)
+
+@router.message(Geo.pic, F.text)
+async def send_photo(message: Message, state: FSMContext):
+    if (message.text == 'нет') or (message.text == 'Нет'):
+        await state.update_data(pic='нет')
+        await state.set_state(Geo.tex)
+    else:
+        state.clear()
+        await message.reply("Попробуй заново добавить координаты",
                                reply_markup=kb.main)
-    await db1.create(user_id=message.from_user.id, lat=lat, long=lon)
-    await state.clear()
+
+@router.message(Geo.pic, F.photo)
+async def send_photo(message: Message, state: FSMContext):
+    ph = message.photo[-1].file_id
+    await state.update_data(pic=ph)
+    await state.set_state(Geo.tex)
+
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
