@@ -67,14 +67,14 @@ async def user_location(message: Message, state: FSMContext):
             m[2] = m[1]
             m[1] = m[0]
             m[0] = t
-            coordt1[0], coordt1[1] = bd[i][0], bd[i][1]
-            coordt2[0], coordt2[1] = coordt1[0], coordt1[1]
             coordt3[0], coordt3[1] = coordt2[0], coordt2[1]
+            coordt2[0], coordt2[1] = coordt1[0], coordt1[1]
+            coordt1[0], coordt1[1] = bd[i][0], bd[i][1]
         elif t < m[1]:
             m[2] = m[1]
             m[1] = t
-            coordt2[0], coordt2[1] = bd[i][0], bd[i][1]
             coordt3[0], coordt3[1] = coordt2[0], coordt2[1]
+            coordt2[0], coordt2[1] = bd[i][0], bd[i][1]
         elif t < m[2]:
             m[2] = t
             coordt3[0], coordt3[1] = bd[i][0], bd[i][1]

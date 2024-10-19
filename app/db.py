@@ -1,5 +1,6 @@
 import sqlite3 as sq
 from dataclasses import dataclass
+from types import NoneType
 
 
 async def db_start():
@@ -29,10 +30,15 @@ async def take_coords():
 async def check_coords(lt, ln):
     database = sq.connect('new.db')
     cur = database.cursor()
-    cur.execute(f"SELECT lat, long FROM coord WHERE lat = {lt} and long = {ln}")
-    results = cur.fetchone()
+    cur.execute("SELECT lat, long FROM coord")
+    coords = cur.fetchall()
+    print(coords)
+    count = 0
+    for i in range(len(coords)):
+        if (str(round(float(coords[i][0]), 4))[:5] == str(round(float(lt), 4))[:5]) or (str(round(float(coords[i][1]), 4))[:5] == str(round(float(ln), 4))[:5]):
+            count += 1
     database.close()
-    return True if len(results) == 0 else False
+    return True if count == 0 else False
 
 async def take_inf(lt, ln):
     database = sq.connect('new.db')
