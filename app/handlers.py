@@ -3,7 +3,7 @@ from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 import telegramBot.app.db as db1
 import telegramBot.app.keyboards as kb
-from telegramBot.app.db import db_start, take_coords
+from telegramBot.app.db import db_start, take_coords, take_inf, check_coords
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from math import sin, cos, sqrt, atan2, radians
@@ -51,9 +51,6 @@ async def send_location2(message: Message, state: FSMContext):
 async def user_location(message: Message, state: FSMContext):
     lat = message.location.latitude
     lon = message.location.longitude
-    await message.answer(f"Ваши координаты {lat}, {lon}",
-                         reply_markup=kb.main)
-    # array from the database
     bd = await take_coords()
 
     # nearest points
@@ -82,22 +79,93 @@ async def user_location(message: Message, state: FSMContext):
             m[2] = t
             coordt3[0], coordt3[1] = bd[i][0], bd[i][1]
     await state.clear()
-
-    # print
     if m[0] > 1000:  # если животных нет в радиусе 1000км
         await message.answer("Рядом с вами нет бездомных животных")
     elif (m[1] > 1000) or (coordt2 == coordt1):  # если 1 животное в радиусе 1000км
         await message.answer("Рядом с вами только одно животное")
-        await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1])
+        data = await take_inf(lt=coordt1[0], ln=coordt1[1])
+        is_photo = True if len(data[0][0]) >= 80 else False
+
+        if (is_photo):
+            await bot1.send_photo(message.from_user.id,
+                              photo=f'{data[0][0]}',
+                              caption=f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
+        else:
+            await bot1.send_message(message.from_user.id,f'Фото: не приложено \n'
+                                                         f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
+
+
     elif (m[2] > 1000) or (coordt3 == coordt2):  # если 2 животных в радиусе 1000км
         await message.answer("Вот геолокации ближайших к вам бездомных животных")
-        await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1])
-        await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1])
+
+        data = await take_inf(lt=coordt1[0], ln=coordt1[1])
+        is_photo = True if len(data[0][0]) >= 80 else False
+
+        if (is_photo):
+            await bot1.send_photo(message.from_user.id,
+                                  photo=f'{data[0][0]}',
+                                  caption=f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
+        else:
+            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
+                                                          f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
+
+        data = await take_inf(lt=coordt2[0], ln=coordt2[1])
+        is_photo = True if len(data[0][0]) >= 80 else False
+
+        if (is_photo):
+            await bot1.send_photo(message.from_user.id,
+                                  photo=f'{data[0][0]}',
+                                  caption=f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
+        else:
+            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
+                                                          f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
     else:  # если 3 животных в радиусе 1000км
         await message.answer("Вот геолокации ближайших к вам бездомных животных")
-        await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1])
-        await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1])
-        await bot1.send_location(message.from_user.id, coordt3[0], coordt3[1])
+
+        data = await take_inf(lt=coordt1[0], ln=coordt1[1])
+        is_photo = True if len(data[0][0]) >= 80 else False
+
+        if (is_photo):
+            await bot1.send_photo(message.from_user.id,
+                                  photo=f'{data[0][0]}',
+                                  caption=f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
+        else:
+            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
+                                                          f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
+
+        data = await take_inf(lt=coordt2[0], ln=coordt2[1])
+        is_photo = True if len(data[0][0]) >= 80 else False
+
+        if (is_photo):
+            await bot1.send_photo(message.from_user.id,
+                                  photo=f'{data[0][0]}',
+                                  caption=f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
+        else:
+            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
+                                                          f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
+
+        data = await take_inf(lt=coordt3[0], ln=coordt3[1])
+        is_photo = True if len(data[0][0]) >= 80 else False
+
+        if (is_photo):
+            await bot1.send_photo(message.from_user.id,
+                                  photo=f'{data[0][0]}',
+                                  caption=f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt3[0], coordt3[1], reply_markup=kb.main)
+        else:
+            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
+                                                          f'Описание: {data[0][1]}')
+            await bot1.send_location(message.from_user.id, coordt3[0], coordt3[1], reply_markup=kb.main)
 
 
 @router.message(F.text == "Добавить метку")
@@ -134,23 +202,31 @@ async def send_photo1(message: Message, state: FSMContext):
 async def send_photo2(message: Message, state: FSMContext):
     ph = message.photo[-1].file_id
     await state.update_data(pic=ph)
+    await message.reply("Отправь описание или напиши 'нет'")
     await state.set_state(Geo.tex)
 
 
 # прикрепляем описание
 @router.message(Geo.tex, F.text)
 async def send_text(message: Message, state: FSMContext):
+    data = await state.get_data()
+    if_exists_coors_in_bd = await check_coords(data['get_coor'].split()[1], data['get_coor'].split()[2])
     if (message.text == 'нет') or (message.text == 'Нет'):
-        await state.update_data(tex='нет')
-        await message.reply("Описание не добавлено",
-                            reply_markup=kb.main)
-        # вот тут напишешь свою базу данных
+        if (if_exists_coors_in_bd):
+            await db1.create(user_id=message.from_user.id, lat=data['get_coor'].split()[1],
+                            long=data['get_coor'].split()[2], img=data['pic'], desc=message.text.lower())
+            await message.reply("Новое место добавлено", reply_markup=kb.main)
+        else:
+            await message.reply("Это место уже есть в нашей базе данных", reply_markup=kb.main)
         await state.clear()
     else:
+        if (if_exists_coors_in_bd):
+            await db1.create(user_id=message.from_user.id, lat=data['get_coor'].split()[1],
+                             long=data['get_coor'].split()[2], img=data['pic'], desc=message.text.lower())
+            await message.reply("Новое место добавлено", reply_markup=kb.main)
+        else:
+            await message.reply("Это место уже есть в нашей базе данных", reply_markup=kb.main)
         await state.clear()
-        await message.reply("Описание добавлено",
-                            reply_markup=kb.main)
-        await state.update_data(tex=message.text)
 
 
 @router.message(CommandStart())
