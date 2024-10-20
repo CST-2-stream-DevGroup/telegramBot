@@ -36,7 +36,6 @@ async def check_coords(lt, ln):
     cur = database.cursor()
     cur.execute("SELECT lat, long FROM coord")
     coords = cur.fetchall()
-    print(coords)
     count = 0
     for i in range(len(coords)):
         if ((str(round(float(coords[i][0]), 4))[:5] == str(round(float(lt), 4))[:5]) or
