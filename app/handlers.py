@@ -88,12 +88,12 @@ async def user_location(message: Message, state: FSMContext):
 
         if (is_photo):
             await bot1.send_photo(message.from_user.id,
-                              photo=f'{data[0][0]}',
-                              caption=f'Описание: {data[0][1]}')
+                              photo=f"{data[0][0]}",
+                              caption=f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
         else:
-            await bot1.send_message(message.from_user.id,f'Фото: не приложено \n'
-                                                         f'Описание: {data[0][1]}')
+            await bot1.send_message(message.from_user.id,f"Фото: не приложено \n"
+                                                         f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
 
 
@@ -106,11 +106,11 @@ async def user_location(message: Message, state: FSMContext):
         if (is_photo):
             await bot1.send_photo(message.from_user.id,
                                   photo=f'{data[0][0]}',
-                                  caption=f'Описание: {data[0][1]}')
+                                  caption=f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
         else:
-            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
-                                                          f'Описание: {data[0][1]}')
+            await bot1.send_message(message.from_user.id, f"Фото: не приложено \n"
+                                                          f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
 
         data = await take_inf(lt=coordt2[0], ln=coordt2[1])
@@ -118,12 +118,12 @@ async def user_location(message: Message, state: FSMContext):
 
         if (is_photo):
             await bot1.send_photo(message.from_user.id,
-                                  photo=f'{data[0][0]}',
-                                  caption=f'Описание: {data[0][1]}')
+                                  photo=f"{data[0][0]}",
+                                  caption=f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
         else:
-            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
-                                                          f'Описание: {data[0][1]}')
+            await bot1.send_message(message.from_user.id, f"Фото: не приложено \n"
+                                                          f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
     else:  # если 3 животных в радиусе 1000км
         await message.answer("Вот геолокации ближайших к вам бездомных животных")
@@ -133,12 +133,12 @@ async def user_location(message: Message, state: FSMContext):
 
         if (is_photo):
             await bot1.send_photo(message.from_user.id,
-                                  photo=f'{data[0][0]}',
-                                  caption=f'Описание: {data[0][1]}')
+                                  photo=f"{data[0][0]}",
+                                  caption=f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
         else:
-            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
-                                                          f'Описание: {data[0][1]}')
+            await bot1.send_message(message.from_user.id, f"Фото: не приложено \n"
+                                                          f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt1[0], coordt1[1], reply_markup=kb.main)
 
         data = await take_inf(lt=coordt2[0], ln=coordt2[1])
@@ -146,12 +146,12 @@ async def user_location(message: Message, state: FSMContext):
 
         if (is_photo):
             await bot1.send_photo(message.from_user.id,
-                                  photo=f'{data[0][0]}',
-                                  caption=f'Описание: {data[0][1]}')
+                                  photo=f"{data[0][0]}",
+                                  caption=f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
         else:
-            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
-                                                          f'Описание: {data[0][1]}')
+            await bot1.send_message(message.from_user.id, f"Фото: не приложено \n"
+                                                          f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt2[0], coordt2[1], reply_markup=kb.main)
 
         data = await take_inf(lt=coordt3[0], ln=coordt3[1])
@@ -159,12 +159,12 @@ async def user_location(message: Message, state: FSMContext):
 
         if (is_photo):
             await bot1.send_photo(message.from_user.id,
-                                  photo=f'{data[0][0]}',
-                                  caption=f'Описание: {data[0][1]}')
+                                  photo=f"{data[0][0]}",
+                                  caption=f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt3[0], coordt3[1], reply_markup=kb.main)
         else:
-            await bot1.send_message(message.from_user.id, f'Фото: не приложено \n'
-                                                          f'Описание: {data[0][1]}')
+            await bot1.send_message(message.from_user.id, f"Фото: не приложено \n"
+                                                          f"Описание: {data[0][1]}")
             await bot1.send_location(message.from_user.id, coordt3[0], coordt3[1], reply_markup=kb.main)
 
 
@@ -187,8 +187,8 @@ async def handle_location(message: Message, state: FSMContext):
 # прикрепляем фото
 @router.message(Geo.pic, F.text)
 async def send_photo1(message: Message, state: FSMContext):
-    if (message.text == 'нет') or (message.text == 'Нет'):
-        await state.update_data(pic='нет')
+    if (message.text == "нет") or (message.text == "Нет"):
+        await state.update_data(pic="нет")
         await message.reply("Фото не добавлено")
         await message.reply("Отправь описание или напиши 'нет'")
         await state.set_state(Geo.tex)
@@ -211,7 +211,7 @@ async def send_photo2(message: Message, state: FSMContext):
 async def send_text(message: Message, state: FSMContext):
     data = await state.get_data()
     if_exists_coors_in_bd = await check_coords(data['get_coor'].split()[1], data['get_coor'].split()[2])
-    if (message.text == 'нет') or (message.text == 'Нет'):
+    if (message.text == "нет") or (message.text == "Нет"):
         if (if_exists_coors_in_bd):
             await db1.create(user_id=message.from_user.id, lat=data['get_coor'].split()[1],
                             long=data['get_coor'].split()[2], img=data['pic'], desc=message.text.lower())
@@ -233,15 +233,14 @@ async def send_text(message: Message, state: FSMContext):
 async def cmd_start(message: Message):
     await message.answer_photo(
         photo='AgACAgIAAxkBAANNZvlurmgJ3j-za2LmkPDn0diBGhUAAkrhMRvH79FL8-Q1NacBlQYBAAMCAAN4AAM2BA',
-        caption='Привет! Я бот, созданный для помощи бездомным животным. '
-                'С моей помощью ты можешь отмечать на карте места, где видишь животных, '
-                'нуждающихся в еде и заботе. Благодаря этому другие люди смогут прийти и помочь им.\n\n'
-                'Чтобы начать, используй команды:\n'
-                '/add_location — отметить новое место.\n'
-                '/view_map — посмотреть карту с отмеченными животными.\n'
-                '/info — узнать больше о том, как я работаю.\n\n'
-                'Спасибо, что помогаешь друзьям нашим меньшим!'
-                '/support - для отправления обращения в поддержку, если возникнут проблемы',
+        caption="Привет! Я бот, созданный для помощи бездомным животным. "
+                "С моей помощью ты можешь отмечать на карте места, где видишь бездомных животных, "
+                "нуждающихся в еде и заботе. Благодаря этому другие люди смогут прийти и покормить их"
+                " или забрать к себе.\n\n"
+                "Для того, чтобы начать работу с ботом, используй кнопки на клавиатуре.\n\n"
+                "Спасибо, что находишь время для помощи братьям нашим меньшим!\n"
+                "Если возникнут проблемы при общении со мной, исопльзуйте комманду /support для "
+                "получения помощи поддержки",
         reply_markup=kb.main)
 
 
@@ -249,9 +248,27 @@ async def cmd_start(message: Message):
 @router.message(Command("info"))
 async def cmd_start(message: Message):
     await db_start()
-    await message.answer("Добро пожаловать в бот Fluffy trail, который был создан для помощи бездомным животным \n"
-                         "Здесь вы можете узнать ближайшее местонахождение зверюшек \n"
-                         "Также есть возможность добавлять новые точки, где находятся нуждающиеся животные")
+    await message.answer("Привет, друг! Мы очень рады, что ты хочешь сделать доброе дело! "
+                         "Давай мы немного расскажем о работе нашего бота.\n\n"
+                         "'Fluffy trail' был создан командой студентов, которые заинтересованы "
+                         "в помощи животным, попавшим в беду. Принцип работы бота прост: "
+                         "нажав несколько кнопок, ты можешь увидеть ближайшее к тебе "
+                         "местонахождение животного, которое нуждается в помощи человека."
+                         "Также, если ты встретил на улице зверюшек, ты можешь добавить их "
+                         "геолокацию, если её ещё нет.\n\n "
+                         "В боте существуют две основные кнопки: 'Добавить метку' и 'Посмотреть карту'\n."
+                         "Нажав на первую, система попросит твои координаты и запомнит их. Далее "
+                         "по возможности ты можешь отправить фотографию и описание, чтобы "
+                         "по ним люди смогли узнать, какое это животное и в какая помощь еум нужна.\n"
+                         "Нажав на вторую кнопку, бот также попросит твои координаты, затем "
+                         "определит и отправит тебе ближайшую геолокацию зверька, которую "
+                         "отметили другие люди, а также фотографию и описание, если они были сделаны.\n\n"
+                         "Если у тебя возникнут проблемы с использованием бота или вопросы, не стесняйся "
+                         "задавать их нам. Напиши команду /suppot и напиши то, о чём хочешь узнать. "
+                         "В течение суток наша команда поможет тебе."
+                         "Спасибо, что выбрали бот Fluffy trail!"
+
+                         )
 
 
 # загрузка фото в сам бот, чтобы можно было их потом использовать
@@ -264,7 +281,8 @@ async def get_photo(message: Message):
 @router.message(Command("get_support"))
 async def cmd_start(message: Message):
     await db_start()
-    await message.bot.forward_message(chat_id="914902185", from_chat_id=message.chat.id, message_id=message.message_id)
+    await message.bot.forward_message(chat_id="914902185", from_chat_id=message.chat.id,
+                                      message_id=message.message_id)
     await message.answer("Ваш ответ принят! Поддержка рассмотрит его в течение суток.")
 
 
@@ -273,4 +291,5 @@ async def cmd_start(message: Message):
 async def cmd_start(message: Message):
     await db_start()
     await message.answer(
-        "Напишите /get_support и опишите проблему в этом же сообщении. После чего оно будет перенаправлено в поддержку")
+        "Напишите /get_support и опишите проблему в этом же сообщении. "
+        "После чего оно будет перенаправлено в поддержку")
