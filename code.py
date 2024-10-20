@@ -11,10 +11,12 @@ from telegramBot.app.handlers import on_startup
 bot = Bot(token = TOKEN)
 dp = Dispatcher()
 
+
 #главная функция, отправляющая запрос на сервер тг
 async def main():
     dp.include_router(router)
     await dp.start_polling(bot, on_startup=db_start())
+
 
 #запуск главной функции
 if __name__ == "__main__":
