@@ -14,7 +14,7 @@ async def db_start():
 
 
 async def create(user_id, lat, long, img, desc):
-    database = sq.connect('new.db')
+    database = sq.connect('data\\new.db')
     cur = database.cursor()
     cur.execute("INSERT INTO coord VALUES(?, ?, ?, ?, ?)",
                 (user_id, lat, long, img, desc))
@@ -23,7 +23,7 @@ async def create(user_id, lat, long, img, desc):
 
 
 async def take_coords():
-    database = sq.connect('new.db')
+    database = sq.connect('data\\new.db')
     cur = database.cursor()
     cur.execute("SELECT lat, long FROM coord")
     results = cur.fetchall()
@@ -32,7 +32,7 @@ async def take_coords():
 
 
 async def check_coords(lt, ln):
-    database = sq.connect('new.db')
+    database = sq.connect('data\\new.db')
     cur = database.cursor()
     cur.execute("SELECT lat, long FROM coord")
     coords = cur.fetchall()
@@ -46,7 +46,7 @@ async def check_coords(lt, ln):
 
 
 async def take_inf(lt, ln):
-    database = sq.connect('new.db')
+    database = sq.connect('data\\new.db')
     cur = database.cursor()
     cur.execute(f"SELECT img, desc FROM coord WHERE lat = {lt} and long = {ln}")
     results = cur.fetchall()
